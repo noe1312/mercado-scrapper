@@ -20,5 +20,5 @@ Este es un proyecto web desarrollado en Django que permite buscar productos en [
 
 ## 📷 Captura de pantalla
 
-![screenshot]() 
+![Pagina principal](imagenes/pagina-principal.png) 
 

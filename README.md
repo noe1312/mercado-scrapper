@@ -1,6 +1,7 @@
 # 🛍️ Web Scraper de Productos - MercadoLibre Argentina
 
 Este es un proyecto web desarrollado en Django que permite buscar productos en [MercadoLibre Argentina](https://listado.mercadolibre.com.ar/) y visualizar los resultados, incluyendo el nombre del producto, precio, enlace al producto e imagen.
+Todo este proyecto se basa en la famosa pagina de [CamelCamelCamel](https://es.camelcamelcamel.com/)
 
 ## 🚀 Funcionalidades
 
@@ -20,5 +21,15 @@ Este es un proyecto web desarrollado en Django que permite buscar productos en [
 
 ## 📷 Captura de pantalla
 
+### Así es la pantalla principal de busqueda ⤵️
 ![Pagina principal](imagenes/pagina-principal.png) 
+
+### Y aqui un ejemplo de busqueda ⤵️
+![Pagina Busqueda](imagenes/resultado-busqueda.png) 
+
+## ⚙️ Correcciones
+- Hacer imagen visible
+- Poder ver todas las paginas de Mercado Libre
+- Ver los precios historicos de un mismo producto
+- Hacer una pagina principal con valores más baratos historicamente en un carrousel
 

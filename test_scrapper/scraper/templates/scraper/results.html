@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultados de la Búsqueda</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #333;
+      }
+
+      .product-card {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        padding: 20px;
+      }
+
+      .product-card img {
+        width: 120px;
+        height: auto;
+        border-radius: 8px;
+        margin-right: 20px;
+        object-fit: cover;
+      }
+
+      .product-info {
+        flex: 1;
+      }
+
+      .product-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .product-price {
+        font-size: 1rem;
+        color: #4caf50;
+        margin-bottom: 10px;
+      }
+
+      .product-link {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s;
+      }
+
+      .product-link:hover {
+        background-color: #0056b3;
+      }
+
+      .back {
+        display: block;
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      .back a {
+        color: #555;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .back a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Resultados de la Búsqueda</h1>
+
+      {% for product in products %}
+      <div class="product-card">
+        <img
+          src="{{ product.img }}"
+          alt="Imagen del producto"
+          class="product-card img"
+        />
+        <div class="product-info">
+          <div class="product-title">{{ product.nombre_articulo }}</div>
+          <div class="product-price">{{ product.precio }}</div>
+          <a class="product-link" href="{{ product.link }}" target="_blank"
+            >Ver producto</a
+          >
+        </div>
+      </div>
+      {% endfor %}
+
+      <div class="back">
+        <a href="{% url 'index' %}">← Volver a buscar</a>
+      </div>
+    </div>
+  </body>
+</html>

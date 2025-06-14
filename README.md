@@ -33,3 +33,6 @@ Todo este proyecto se basa en la famosa pagina de [CamelCamelCamel](https://es.c
 - Ver los precios historicos de un mismo producto
 - Hacer una pagina principal con valores más baratos historicamente en un carrousel
 
+
+## PROYECTO
+[MERCADO SCRAPPER.docx](https://github.com/user-attachments/files/20734988/MERCADO.SCRAPPER.docx)

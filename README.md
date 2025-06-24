@@ -34,7 +34,6 @@ Se agrego un Header en la seccion de resultados y Selenium para dar más busqued
 
 ## ⚙️ Correcciones
 - Hacer imagen visible
-- Poder ver todas las paginas de Mercado Libre
 - Ver los precios historicos de un mismo producto
 - Hacer una pagina principal con valores más baratos historicamente en un carrousel
 

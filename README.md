@@ -27,6 +27,11 @@ Todo este proyecto se basa en la famosa pagina de [CamelCamelCamel](https://es.c
 ### Y aqui un ejemplo de busqueda ⤵️
 ![Pagina Busqueda](imagenes/resultado-busqueda.png) 
 
+##Actualizacion (24/06)
+Se agrego un Header en la seccion de resultados y Selenium para dar más busquedas de mercado libre 
+![Header](imagenes\header-results.png)
+
+
 ## ⚙️ Correcciones
 - Hacer imagen visible
 - Poder ver todas las paginas de Mercado Libre

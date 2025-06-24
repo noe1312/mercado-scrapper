@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resultados de la Búsqueda</title>
     <style>
+      /* ESTILOS GENERALES */
       body {
         font-family: "Segoe UI", sans-serif;
         background-color: #f2f2f2;
@@ -14,7 +15,7 @@
 
       .container {
         max-width: 1000px;
-        margin: 50px auto;
+        margin: 130px auto 50px;
         padding: 20px;
       }
 
@@ -24,6 +25,76 @@
         color: #333;
       }
 
+      /* ESTILOS DE CABECERA */
+      .header {
+        background-color: #e0e0e0;
+        padding: 20px;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .header form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .header input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .header button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .header button:hover {
+        background-color: #3e8e41;
+      }
+
+      /* BOTÓN FIJO A LA IZQUIERDA */
+      .back {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1100;
+      }
+
+      .back a {
+        background-color: #dcdcdc;
+        padding: 10px 14px;
+        border-radius: 6px;
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.95rem;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .back a:hover {
+        text-decoration: underline;
+        background-color: #c0c0c0;
+      }
+
+      /* ESTILOS DE LAS CARDS */
       .product-card {
         display: flex;
         align-items: center;
@@ -34,8 +105,8 @@
         padding: 20px;
       }
 
-      .product-card img {
-        width: 120px;
+      .product-image {
+        width: 150px;
         height: auto;
         border-radius: 8px;
         margin-right: 20px;
@@ -71,48 +142,47 @@
       .product-link:hover {
         background-color: #0056b3;
       }
-
-      .back {
-        display: block;
-        text-align: center;
-        margin-top: 40px;
-      }
-
-      .back a {
-        color: #555;
-        text-decoration: none;
-        font-weight: bold;
-      }
-
-      .back a:hover {
-        text-decoration: underline;
-      }
     </style>
   </head>
   <body>
+    <!-- ATRAS -->
+    <div class="back">
+      <a href="{% url 'index' %}">← Volver a buscar</a>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+      <form method="POST" action="{% url 'scrape' %}">
+        {% csrf_token %}
+        <input
+          type="text"
+          name="search_query"
+          placeholder="Seguir buscando"
+          required
+        />
+        <button type="submit">Buscar 🔍</button>
+      </form>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="container">
       <h1>Resultados de la Búsqueda</h1>
-
       {% for product in products %}
       <div class="product-card">
         <img
           src="{{ product.img }}"
           alt="Imagen del producto"
-          class="product-card img"
+          class="product-image"
         />
         <div class="product-info">
           <div class="product-title">{{ product.nombre_articulo }}</div>
-          <div class="product-price">{{ product.precio }}</div>
+          <div class="product-price">${{ product.precio }}</div>
           <a class="product-link" href="{{ product.link }}" target="_blank"
             >Ver producto</a
           >
         </div>
       </div>
       {% endfor %}
-
-      <div class="back">
-        <a href="{% url 'index' %}">← Volver a buscar</a>
-      </div>
     </div>
   </body>
 </html>

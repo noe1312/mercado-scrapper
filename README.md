@@ -29,7 +29,7 @@ Todo este proyecto se basa en la famosa pagina de [CamelCamelCamel](https://es.c
 
 ##Actualizacion (24/06)
 Se agrego un Header en la seccion de resultados y Selenium para dar más busquedas de mercado libre 
-![Header](imagenes\header-results.png)
+![Header](imagenes/header-results.png)
 
 
 ## ⚙️ Correcciones

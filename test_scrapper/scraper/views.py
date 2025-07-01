@@ -4,11 +4,23 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from .models import PrecioHistorico
 from bs4 import BeautifulSoup
+from django.shortcuts import get_object_or_404
 import time
+import random
+from decimal import Decimal
 
 def index(request):
     return render(request, 'scraper/index.html')
+
+def grafico_producto(request, producto_id):
+    historial = PrecioHistorico.objects.filter(id=producto_id).order_by('fecha')
+    producto = get_object_or_404(PrecioHistorico, id=producto_id)
+    return render(request, 'scraper/grafico_producto.html', {
+        'historial': historial,
+        'nombre': producto.nombre
+    })
 
 def scrape(request):
     if request.method == 'POST':
@@ -19,7 +31,11 @@ def scrape(request):
         options.add_argument("--headless")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        
         # Usar webdriver-manager para manejar el chromedriver
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
@@ -27,7 +43,7 @@ def scrape(request):
 
         url = f'https://listado.mercadolibre.com.ar/{search_query.replace(" ", "-")}#D[A:{search_query}]'
         driver.get(url)
-        time.sleep(3)
+        time.sleep(random.uniform(2.5,5.5))
 
         soup = BeautifulSoup(driver.page_source, 'html.parser')
 
@@ -43,7 +59,7 @@ def scrape(request):
         for page in range(0, last_page_number):
             page_url = f'https://listado.mercadolibre.com.ar/{search_query.replace(" ", "-")}_Desde_{page * 50 + 1}_NoIndex_True'
             driver.get(page_url)
-            time.sleep(3)
+            time.sleep(random.uniform(2.5,5.5))
 
             soup_page = BeautifulSoup(driver.page_source, 'html.parser')
             divs = soup_page.find_all('div', class_='poly-card__content')
@@ -54,11 +70,19 @@ def scrape(request):
                         'nombre_articulo': item.find('h3', class_='poly-component__title-wrapper').text.strip(),
                         'precio': item.find('span', class_='andes-money-amount__fraction').text.strip(),
                         'link': item.find('a', class_='poly-component__title')['href'],
+                        
                     }
 
                     img_tag = item.find('poly-card__portada')
                     data['img'] = img_tag.get('data-src') or img_tag.get('src') if img_tag else ''
-
+                    
+                    nuevo = PrecioHistorico.objects.create(
+                        nombre=data['nombre_articulo'],
+                        precio=Decimal(data['precio'].replace('.', '')),  
+                        link=data['link']
+                    )
+                    data['id'] = nuevo.id
+                    
                     products_array.append(data)
                 except Exception as e:
                     print("Error procesando producto:", e)

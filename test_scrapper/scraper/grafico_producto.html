@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Historial de Precios - {{ nombre }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f9f9f9;
+        padding: 20px;
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+      .filtro-fechas {
+        max-width: 600px;
+        margin: 20px auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .filtro-fechas input {
+        padding: 5px;
+        font-size: 1rem;
+      }
+      .filtro-fechas button {
+        padding: 6px 12px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      canvas {
+        display: block;
+        margin: 30px auto;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+      }
+      .volver {
+        text-align: center;
+        margin-top: 40px;
+      }
+      .volver a {
+        text-decoration: none;
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Historial de Precios de: {{ nombre }}</h2>
+
+    <form
+      class="filtro-fechas"
+      method="get"
+      action="{% url 'grafico_producto' %}"
+    >
+      <input type="hidden" name="link" value="{{ request.GET.link }}" />
+      <label
+        >Desde:
+        <input type="date" name="inicio" value="{{ request.GET.inicio }}"
+      /></label>
+      <label
+        >Hasta: <input type="date" name="fin" value="{{ request.GET.fin }}"
+      /></label>
+      <button type="submit">Filtrar</button>
+    </form>
+
+    <canvas id="grafico" width="800" height="400"></canvas>
+
+    <div class="volver">
+      <a href="{% url 'index' %}">← Volver al inicio</a>
+    </div>
+
+    <script>
+      const labels = [
+        "{'% for p in historial %'}",
+        "{{ p.fecha|date:'Y-m-d H:i' }}",
+        "{'% if not forloop.last %'}",
+        "{'% endif %'}",
+        "{'% endfor %'}",
+      ];
+
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "Precio (ARS)",
+            data: [
+              "{'% for p in historial %'}",
+              "{{ 'p.precio '}}",
+              "{'% if not forloop.last %'}",
+              "{'% endif %'}",
+              "{'% endfor %'}",
+            ],
+            borderColor: "#4CAF50",
+            backgroundColor: "rgba(76, 175, 80, 0.2)",
+            fill: true,
+            tension: 0.3,
+          },
+        ],
+      };
+
+      const config = {
+        type: "line",
+        data: data,
+      };
+
+      new Chart(document.getElementById("chart"), config);
+    </script>
+  </body>
+</html>

@@ -180,6 +180,9 @@
           <a class="product-link" href="{{ product.link }}" target="_blank"
             >Ver producto</a
           >
+          <a href="{% url 'grafico_producto' producto_id=product.id %}"
+            >Ver gráfico</a
+          >
         </div>
       </div>
       {% endfor %}

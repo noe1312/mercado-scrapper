@@ -33,11 +33,11 @@ Se agrego un Header en la seccion de resultados y Selenium para dar más busqued
 
 ## Actualizacion (1/07)
 Se corrigio el Headless para evitar el error 403
-![Headless](imagenes/imagen-headless)
+![Headless](imagenes/imagen-headless.png)
 
 ## Actualizacion (1/07)
 Se modifico y corrigio la nueva vista donde se pueden ver los precios de cada producto y sus actualizaciones
-![Historial](imagenes/historial-precios)
+![Historial](imagenes/historial-precios.png)
 
 
 ## ⚙️ Correcciones

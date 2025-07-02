@@ -56,7 +56,7 @@
     <form
       class="filtro-fechas"
       method="get"
-      action="{% url 'grafico_producto' %}"
+      action="{% url 'grafico_producto' producto_id=producto.id %}"
     >
       <input type="hidden" name="link" value="{{ request.GET.link }}" />
       <label

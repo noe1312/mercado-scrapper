@@ -19,8 +19,10 @@ def grafico_producto(request, producto_id):
     producto = get_object_or_404(PrecioHistorico, id=producto_id)
     return render(request, 'scraper/grafico_producto.html', {
         'historial': historial,
-        'nombre': producto.nombre
+        'nombre': producto.nombre,
+        'producto': producto 
     })
+
 
 def scrape(request):
     if request.method == 'POST':

@@ -1,109 +1,263 @@
 <!DOCTYPE html>
 <html lang="es">
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 100px auto;
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 20px;
-    }
-
-    button {
-      background-color: #4caf50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-    /* Pantalla de carga */
-    #loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.9);
-      z-index: 999;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    #loading-overlay.show {
-      display: flex;
-    }
-
-    .spinner {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #4caf50;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scraper de Mercado Libre</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        /*Colores de n8n*/
+        --chat--color-primary: rgba(
+          39,
+          111,
+          227,
+          0.74
+        ); /*Color circulo pequeño*/
+        --chat--color-primary-shade-50: rgba(
+          79,
+          129,
+          208,
+          0.74
+        ); /*Color Hover*/
+        --chat--color-primary-shade-100: #8daa65; /*Color hover click*/
+
+        --chat--color-dark: rgba(0, 15, 164, 0.74); /*Color encabezado y texto*/
+        --chat--color-light: #f2f2f2; /*Color background chat*/
+
+        --chat--message--bot--background: rgba(
+          0,
+          14,
+          71,
+          0.12
+        ); /*Color backgroud texto bot*/
+        --chat--message--bot--color: #000000; /*Color texto bot*/
+
+        --chat--message--user--background: rgba(
+          0,
+          14,
+          71,
+          0.12
+        ); /*Color backgroud texto user*/
+        --chat--message--user--color: #ffffff; /*Color texto user*/
+
+        --chat--color-secondary: #d4edda; /*Color boton enviar*/
+        --chat--color--white: #f2f2f2; /*Color chat pequeño*/
+      }
+
+      /* HEADER */
+      .simple-header {
+        background-color: #f1f1f1;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        width: 98%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .simple-header h1 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #333;
+      }
+
+      .nav-buttons a {
+        text-decoration: none;
+        background-color: #4caf50;
+        color: white;
+        padding: 8px 14px;
+        margin-left: 10px;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      .nav-buttons a:hover {
+        background-color: #388e3c;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: 120px auto 50px;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      /* FOOTER */
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #eee;
+        color: #333;
+        font-size: 0.9rem;
+      }
+
+      footer a {
+        margin: 0 10px;
+        color: #4caf50;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Pantalla de carga */
+      #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #loading-overlay.show {
+        display: flex;
+      }
+
+      .spinner {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #4caf50;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @import url("https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css");
+    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+      rel="stylesheet"
+    />
   </head>
+
   <body>
-    <h1>Buscar en Mercado Libre</h1>
-    <form method="POST" action="{% url 'scrape' %}">
-      {% csrf_token %}
-      <input
-        type="text"
-        name="search_query"
-        placeholder="¿Qué quieres buscar?"
-        required
-      />
-      <button type="submit">Buscar</button>
-    </form>
-    <script>
+    <div id="loading-overlay">
+      <div class="spinner"></div>
+      <p>Cargando resultados...</p>
+    </div>
+    <header class="simple-header">
+      <h1>Mercado Scrapper</h1>
+      <div class="nav-buttons">
+        <a href="{% url 'index' %}">Inicio</a>
+        <a href="{% url 'about_us' %}">Sobre Mi</a>
+        <a href="{% url 'contacto' %}">Contacto</a>
+        <a href="{% url 'usuario' %}">Suscribirme</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <form method="POST" action="{% url 'scrape' %}" onsubmit="showLoading()">
+        {% csrf_token %}
+        <input
+          type="text"
+          name="search_query"
+          placeholder="¿Qué quieres buscar?"
+          required
+        />
+        <button type="submit">Buscar</button>
+      </form>
+    </main>
+
+    <footer>
+      <a href="{% url 'about_us' %}">Sobre Mi</a>
+      <a href="{% url 'contacto' %}">Contacto</a>
+      <a href="{% url 'usuario' %}">Suscribirme</a>
+      <p>Todos los derechos reservados.</p>
+      <p>
+        Información de contacto:
+        <a
+          href="mailto:noe.alaniz@isri.edu.ar?subject=Consulta%20sobre%20el%20servicio"
+          >noe.alaniz@isri.edu.ar</a
+        >
+      </p>
+    </footer>
+
+    <script type="module">
       function showLoading() {
         document.getElementById("loading-overlay").classList.add("show");
       }
+
+      import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js";
+
+      createChat({
+        webhookUrl:
+          "https://n8n-production-1fe1.up.railway.app/webhook/faded96f-5d2f-45a1-8fde-6533b7f2829c/chat",
+        webhookConfig: { method: "POST", headers: {} },
+        target: "#n8n-chat",
+        mode: "window",
+        chatInputKey: "chatInput",
+        chatSessionKey: "sessionId",
+        metadata: {},
+        showWelcomeScreen: false,
+        defaultLanguage: "en",
+        initialMessages: [
+          "Mucho gusto! 👋",
+          "Mi nombre es AutoBot, ¿en qué te puedo ayudar hoy?",
+        ],
+        i18n: {
+          en: {
+            title: "Este es nuestro chat en vivo! 👋",
+            subtitle: "Comienza a escribirnos, con atención 24/7.",
+            footer: "",
+            getStarted: "Nueva conversación",
+            inputPlaceholder: "Escribe tu pregunta...",
+          },
+        },
+      });
     </script>
   </body>
 </html>

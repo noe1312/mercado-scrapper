@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre Mí</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f2f2f2;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header.simple-header {
+        background-color: #f1f1f1;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #333;
+      }
+
+      .nav-buttons a {
+        text-decoration: none;
+        background-color: #4caf50;
+        color: white;
+        padding: 8px 14px;
+        margin-left: 10px;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      .nav-buttons a:hover {
+        background-color: #388e3c;
+      }
+
+      main.container {
+        flex: 1;
+        max-width: 1000px;
+        margin: 140px auto 50px;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #333;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #e0e0e0;
+        color: #333;
+        font-size: 0.95rem;
+        box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.05);
+      }
+      footer a {
+        margin: 0 10px;
+        color: #4caf50;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="simple-header">
+      <h1>Mercado Scrapper</h1>
+      <div class="nav-buttons">
+        <a href="{% url 'index' %}">Inicio</a>
+        <a href="#">Sobre Mi</a>
+        <a href="{% url 'contacto' %}">Contacto</a>
+        <a href="{% url 'usuario' %}">Suscribirme</a>
+      </div>
+    </header>
+    <main class="container">
+      <h1>Sobre Mí</h1>
+      <p>
+        Hola! soy un estudiante de 3er año y este es mi proyecto de mi
+        instituto, para este proyecto tuve de inspiracion la idea de web
+        scrapping que hay en otras paginas mas grandes como
+        <a href="camelcamelcamel.com">CamelCamelCamel</a> y
+        <a href="ofertasshark.com">Ofertas Shark</a>, espero en algun futuro
+        conseguir su nivel de scrapping con este mismo proyecto personal
+      </p>
+    </main>
+
+    <footer>
+      <a href="{%url 'index'%}">Inicio</a>
+      <a href="{%url 'contacto'%}">Contacto</a>
+      <a href="{%url 'usuario'%}">Suscribirme</a>
+      <p>Todos los derechos reservados.</p>
+      <p>
+        Información de contacto:
+        <a
+          href="mailto:noe.alaniz@isri.edu.ar?subject=Consulta%20sobre%20el%20servicio"
+          >noe.alaniz@isri.edu.ar</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>

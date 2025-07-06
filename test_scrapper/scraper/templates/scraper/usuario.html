@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resultados de la Búsqueda</title>
+    <title>Usuario</title>
     <style>
       * {
         box-sizing: border-box;
@@ -60,101 +60,72 @@
         margin: 140px auto 50px;
         padding: 20px;
       }
+      .container-p {
+        font-size: 1rem;
+        color: #444;
+        margin-bottom: 30px;
+      }
 
       h1 {
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
         color: #333;
       }
 
-      .back {
-        position: fixed;
-        top: 80px;
-        left: 20px;
-        z-index: 1100;
-      }
-
-      .back a {
-        background-color: #dcdcdc;
-        padding: 10px 14px;
-        border-radius: 6px;
-        color: #333;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 0.95rem;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .back a:hover {
-        text-decoration: underline;
-        background-color: #c0c0c0;
-      }
-
-      .product-card {
-        display: flex;
-        align-items: center;
+      form {
+        max-width: 600px;
+        margin: 0 auto;
         background-color: #fff;
+        padding: 30px;
         border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        padding: 20px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
       }
 
-      .product-image {
-        width: 150px;
-        height: auto;
-        border-radius: 8px;
-        margin-right: 20px;
-        object-fit: cover;
-      }
-
-      .product-info {
-        flex: 1;
-      }
-
-      .product-title {
-        font-size: 1.2rem;
+      label {
+        display: block;
+        margin-bottom: 10px;
         font-weight: bold;
-        margin-bottom: 10px;
+        color: #555;
       }
 
-      .product-price {
-        font-size: 1rem;
-        color: #4caf50;
-        margin-bottom: 10px;
-      }
-
-      .product-link {
-        display: inline-block;
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: #fff;
-        text-decoration: none;
+      input[type="email"],
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
         border-radius: 6px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
         transition: background-color 0.3s;
-        margin-right: 10px;
       }
 
-      .product-link:hover {
-        background-color: #0056b3;
+      button:hover {
+        background-color: #45a049;
       }
 
-      /* FOOTER */
       footer {
         text-align: center;
         padding: 20px;
-        background-color: #eee;
+        background-color: #e0e0e0;
         color: #333;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.05);
       }
-
       footer a {
         margin: 0 10px;
         color: #4caf50;
         text-decoration: none;
         font-weight: bold;
       }
-
       footer a:hover {
         text-decoration: underline;
       }
@@ -164,45 +135,48 @@
     <header class="simple-header">
       <h1>Mercado Scrapper</h1>
       <div class="nav-buttons">
+        <a href="{% url 'index' %}">Inicio</a>
         <a href="{% url 'about_us' %}">Sobre Mi</a>
         <a href="{% url 'contacto' %}">Contacto</a>
-        <a href="{% url 'usuario' %}">Usuario</a>
+        <a href="#">Suscribirme</a>
       </div>
     </header>
 
     <main class="container">
-      <div class="back">
-        <a href="{% url 'index' %}">← Volver a buscar</a>
-      </div>
+      <h1>Suscribirse a Ofertas y Rebajadas de Precio</h1>
+      <p class="container-p">
+        ¿Quieres ser parte de nuestra comunidad y estar al tanto de las rebajas
+        de los productos que te interesan?Suscribete y recibiras mails
+        notificaciones de sus rebajas y ofertas
+      </p>
+      <form method="POST" action="mailto:noe.alaniz@isri.edu.ar">
+        {% csrf_token %}
+        <label for="email">Correo electrónico:</label><br />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="email@ejemplo.com"
+          required
+        /><br />
 
-      <h1>Resultados de la Búsqueda</h1>
-      {% for product in products %}
-      <div class="product-card">
-        <img
-          src="{{ product.img }}"
-          alt="Imagen del producto"
-          class="product-image"
-        />
-        <div class="product-info">
-          <div class="product-title">{{ product.nombre_articulo }}</div>
-          <div class="product-price">${{ product.precio }}</div>
-          <a class="product-link" href="{{ product.link }}" target="_blank"
-            >Ver producto</a
-          >
-          <a
-            class="product-link"
-            href="{% url 'grafico_producto' producto_id=product.id %}"
-            >Ver gráfico</a
-          >
-        </div>
-      </div>
-      {% endfor %}
+        <label for="interes">¿Qué productos te interesan?</label>
+        <input
+          type="text"
+          id="interes"
+          name="interes"
+          placeholder="Ej: notebooks, celulares, etc."
+          required
+        /><br />
+
+        <button type="submit">Suscribirme</button>
+      </form>
     </main>
 
     <footer>
-      <a href="{% url 'about_us' %}">Sobre Mi</a>
-      <a href="{% url 'contacto' %}">Contacto</a>
-      <a href="{% url 'usuario' %}">Usuario</a>
+      <a href="{%url 'index'%}">Inicio</a>
+      <a href="{%url 'contacto'%}">Contacto</a>
+      <a href="{%url 'usuario'%}">Suscribirme</a>
       <p>Todos los derechos reservados.</p>
       <p>
         Información de contacto:

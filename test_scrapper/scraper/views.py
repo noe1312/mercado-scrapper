@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from selenium import webdriver
+
+from django.shortcuts import redirect
+from django.contrib import messages
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -13,6 +16,12 @@ from decimal import Decimal
 
 def index(request):
     return render(request, 'scraper/index.html')
+def contacto(request):
+    return render(request, 'scraper/contacto.html')
+def about_us(request):
+    return render(request, 'scraper/sobre_nosotros.html')
+def usuario(request):
+    return render(request, 'scraper/usuario.html')
 
 def grafico_producto(request, producto_id):
     historial = PrecioHistorico.objects.filter(id=producto_id).order_by('fecha')
@@ -22,6 +31,23 @@ def grafico_producto(request, producto_id):
         'nombre': producto.nombre,
         'producto': producto 
     })
+    
+
+
+def enviar_contacto(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        email = request.POST.get('email')
+        mensaje = request.POST.get('mensaje')
+
+        # Podés guardar en base de datos o enviar un email aquí
+        print(f"Nuevo contacto: {nombre} - {email} - {mensaje}")
+
+        messages.success(request, 'Gracias por tu mensaje. Te responderemos pronto.')
+        return redirect('contacto')  # Asegurate de que 'contacto' sea el nombre de la URL
+
+    return redirect('contacto')
+
 
 
 def scrape(request):
